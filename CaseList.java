@@ -1,6 +1,5 @@
 package com.clinton.yehuda.buyaphonecase;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,24 +29,21 @@ public class CaseList extends AppCompatActivity {
     private static EbayParser ebayParser;
     private Uri uri;
     ListView listItemView;
-    private Context context;
-    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();//bypass using async
-    private Listing selectedListing;
+    StrictMode.ThreadPolicy async = new StrictMode.ThreadPolicy.Builder().permitAll().build();//bypass using async
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_case_list);
-        StrictMode.setThreadPolicy(policy);//bypass using async
+        StrictMode.setThreadPolicy(async);//bypass using async
         doit();
     }
 
     public void doit() {
         Log.d("trying to", "doit");
-        String searchResponse = "blank";//what the heck is thi
-        context = this;//or this
+        String searchResponse = "blank";//this is unprofessional
         if (ebayApi == null) {
-            ebayApi = new EbayApi(this);//not sure here
+            ebayApi = new EbayApi(this);//figured it out
         }
         if (ebayParser == null) {
             ebayParser = new EbayParser(this);//this.context  here
@@ -74,7 +70,6 @@ testImage = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsA
                 e.printStackTrace();
             }
 
-            Log.d("test string",this.stripWrapper("aahelloaa"));
 
 //were going to get rid of ebayparser and Listing
             //get the image//where im working
@@ -141,7 +136,7 @@ testImage = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsA
 
     }
 
-    //get rid of the '[' and stuff
+    //get rid of the '[' and stuff in json
     private String stripWrapper(String s){
         try{
             int end=s.length()-2;
@@ -153,7 +148,7 @@ Log.d("stripWrapper","errrrror");
     }
     //get rid of the '[' and stuff
 
-    public void goToSite() {
+    public void goToSite() {//to open item in browser
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
