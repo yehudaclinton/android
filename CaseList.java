@@ -18,10 +18,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
-import java.net.URLEncoder;
 
 //should really be called listview
-public class CaseList extends AppCompatActivity{
+public class CaseList extends AppCompatActivity {
 
     private static EbayApi ebayApi;
     private static EbayParser ebayParser;
@@ -57,8 +56,8 @@ public class CaseList extends AppCompatActivity{
             ebayParser = new EbayParser(this);//this.context  here
         }
 
-        String testTitle=null, testImage="http://thumbs1.ebaystatic.com/pict/390822678504404000000001_6.jpg";
-        try {
+        String testTitle = null, testImage = null;
+        try {//this needs to be in a loop to get like 10 items
             searchResponse = ebayApi.search("s3");
             Log.d("search response", searchResponse);
             //parse the json myself
@@ -72,29 +71,20 @@ public class CaseList extends AppCompatActivity{
                 JSONObject oitem = (JSONObject) itemm.get(0);
                 //Log.d("json parse result", String.valueOf(oitem.get("title")));//the long way
                 //Log.d("single line jsonParse", String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(0).get("title")));
-testTitle = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(0).get("title")));
-testImage = URLEncoder.encode(this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(0).get("galleryURL"))), "UTF-8");
+                testTitle = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(0).get("title")));
+                testImage = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(0).get("galleryURL")));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
 
 //were going to get rid of ebayparser and Listing
-            //get the image//where im working
-//            URL url = new URL(testImage);
-//            Bitmap myimage = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-
-            //end of get the image
-
-
-
-//      make dummy data
-//            Log.d("read image", String.valueOf(Integer.parseInt(String.valueOf(myimage))));
 
             //image[0] = ;//R.drawable.clip;
-////////////////////////////////////////////"http://thumbs1.ebaystatic.com/pict/390822678504404000000001_6.jpg"
 
-            Log.d("test image", testImage);
+            Log.d("test image before", testImage);
+            testImage = testImage.replaceAll("[^a-zA-Z1234567890_.:/]", "");//​@#&=*+-_.,:!?()/~'%
+            Log.d("test image after", testImage);
             Picasso.with(getApplicationContext()).load(testImage).fit().centerInside().into(img);//
             title[0] = testTitle;//"Blue Case for samsung"
             price[0] = "32.10";
@@ -125,13 +115,13 @@ testImage = URLEncoder.encode(this.stripWrapper(String.valueOf(jsonObject.getJSO
     }
 
     //get rid of the '[' and stuff in json
-    private String stripWrapper(String s){
-        try{
-            int end=s.length()-2;
-            return(s.substring(2,end));
-        }catch(Exception x){
-Log.d("stripWrapper","errrrror");
-            return(s);
+    private String stripWrapper(String s) {
+        try {
+            int end = s.length() - 2;
+            return (s.substring(2, end));
+        } catch (Exception x) {
+            Log.d("stripWrapper", "errrrror");
+            return (s);
         }
     }
     //get rid of the '[' and stuff
