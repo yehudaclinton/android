@@ -1,8 +1,6 @@
 package com.clinton.yehuda.buyaphonecase;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -10,36 +8,45 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import java.net.HttpURLConnection;
 
 //should really be called listview
-public class CaseList extends AppCompatActivity {
+public class CaseList extends AppCompatActivity{
 
     private static EbayApi ebayApi;
     private static EbayParser ebayParser;
     private Uri uri;
+    private HttpURLConnection urlConnection = null;
     ListView listItemView;
     StrictMode.ThreadPolicy async = new StrictMode.ThreadPolicy.Builder().permitAll().build();//bypass using async
+
+    final int[] image = new int[1];
+    ImageView img;//
+    final String[] title = new String[1];
+    final String[] price = new String[1];
+    final String[] shipping = new String[1];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_case_list);
         StrictMode.setThreadPolicy(async);//bypass using async
+        img = (ImageView) findViewById(R.id.imageView1);//view is also commented
         doit();
     }
 
     public void doit() {
+
+
         Log.d("trying to", "doit");
         String searchResponse = "blank";//this is unprofessional
         if (ebayApi == null) {
@@ -49,7 +56,7 @@ public class CaseList extends AppCompatActivity {
             ebayParser = new EbayParser(this);//this.context  here
         }
 
-        String testTitle=null, testImage=null;
+        String testTitle=null, testImage="http://thumbs1.ebaystatic.com/pict/390822678504404000000001_6.jpg";
         try {
             searchResponse = ebayApi.search("s3");
             Log.d("search response", searchResponse);
@@ -75,39 +82,19 @@ testImage = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsA
             //get the image//where im working
 //            URL url = new URL(testImage);
 //            Bitmap myimage = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            Bitmap myimage=null;
-            try {
 
-                URL url = new URL(testImage);
-                InputStream in = url.openConnection().getInputStream();
-                BufferedInputStream bis = new BufferedInputStream(in,1024*8);
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-                int len=0;
-                byte[] buffer = new byte[1024];
-                while((len = bis.read(buffer)) != -1){
-                    out.write(buffer, 0, len);
-                }
-                out.close();
-                bis.close();
-
-                byte[] data = out.toByteArray();
-                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                myimage = bitmap;
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
             //end of get the image
 
-            final int[] image = new int[1];
-            final String[] title = new String[1];
-            final String[] price = new String[1];
-            final String[] shipping = new String[1];
+
 
 //      make dummy data
-            Log.d("read image", String.valueOf(Integer.parseInt(String.valueOf(myimage))));
-            image[0] = Integer.parseInt(String.valueOf(myimage));//R.drawable.clip
+//            Log.d("read image", String.valueOf(Integer.parseInt(String.valueOf(myimage))));
+
+            //image[0] = ;//R.drawable.clip;
+////////////////////////////////////////////"http://thumbs1.ebaystatic.com/pict/390822678504404000000001_6.jpg"
+
+            Log.d("test image", testImage);
+            Picasso.with(getApplicationContext()).load(testImage).fit().centerInside().into(img);//
             title[0] = testTitle;//"Blue Case for samsung"
             price[0] = "32.10";
             shipping[0] = "2.65";
@@ -115,7 +102,7 @@ testImage = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsA
 
             listItemView = (ListView) findViewById(R.id.phoneCaseListView);
 
-            listItemView.setAdapter(new List(this, title, price, shipping, image));
+            listItemView.setAdapter(new List(this, title, price, shipping));//, image
 
 
             listItemView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -147,9 +134,23 @@ Log.d("stripWrapper","errrrror");
         }
     }
     //get rid of the '[' and stuff
+    //image getter
+//    public Drawable loadImageFromURL(String url, String name) {
+////        urlConnection = (HttpURLConnection) url.openConnection();
+////        InputStream in = new BufferedInputStream(urlConnection.getInputStream());///////////
+//        try {
+//            InputStream is = (InputStream) new URL(url).getContent();
+//            Drawable d = Drawable.createFromStream(is, name);
+//            return d;
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
+    //end of image getter
 
     public void goToSite() {//to open item in browser
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
+
 }
