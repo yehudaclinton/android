@@ -8,10 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,8 +26,9 @@ public class CaseList extends AppCompatActivity {
     ListView listItemView;
     StrictMode.ThreadPolicy async = new StrictMode.ThreadPolicy.Builder().permitAll().build();//bypass using async
 
-    final int[] image = new int[1];
-    ImageView img;//
+    //final int[] image = new int[1];
+    //ImageView img;//
+    final String[] image = new String[1];
     final String[] title = new String[1];
     final String[] price = new String[1];
     final String[] shipping = new String[1];
@@ -40,14 +38,12 @@ public class CaseList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_case_list);
         StrictMode.setThreadPolicy(async);//bypass using async
-        img = (ImageView) findViewById(R.id.imageView1);//view is also commented
+        //img = (ImageView) findViewById(R.id.imageView1);//view is also commented
         doit();
     }
 
     public void doit() {
 
-
-        Log.d("trying to", "doit");
         String searchResponse = "blank";//this is unprofessional
         if (ebayApi == null) {
             ebayApi = new EbayApi(this);//figured it out
@@ -80,20 +76,19 @@ public class CaseList extends AppCompatActivity {
 
 //were going to get rid of ebayparser and Listing
 
-            //image[0] = ;//R.drawable.clip;
 
-            Log.d("test image before", testImage);
-            testImage = testImage.replaceAll("[^a-zA-Z1234567890_.:/]", "");//​@#&=*+-_.,:!?()/~'%
-            Log.d("test image after", testImage);
-            Picasso.with(getApplicationContext()).load(testImage).fit().centerInside().into(img);//
-            title[0] = testTitle;//"Blue Case for samsung"
+            Log.d("test image", testImage);
+            //Picasso.with(getApplicationContext()).load(testImage).fit().centerInside().into(img);//
+            image[0] = testImage;
+            title[0] = testTitle;
+            Log.d("title", title[0]);
             price[0] = "32.10";
             shipping[0] = "2.65";
 // end of example data
 
             listItemView = (ListView) findViewById(R.id.phoneCaseListView);
 
-            listItemView.setAdapter(new List(this, title, price, shipping));//, image
+            listItemView.setAdapter(new List(this, title, price, shipping, image));//
 
 
             listItemView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -117,8 +112,9 @@ public class CaseList extends AppCompatActivity {
     //get rid of the '[' and stuff in json
     private String stripWrapper(String s) {
         try {
-            int end = s.length() - 2;
-            return (s.substring(2, end));
+            s = s.replaceAll("[^a-zA-Z1234567890 _.:/]", "");
+            //int end = s.length() - 2;
+            return (s);//.substring(2, end)
         } catch (Exception x) {
             Log.d("stripWrapper", "errrrror");
             return (s);
