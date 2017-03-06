@@ -52,23 +52,21 @@ public class CaseList extends AppCompatActivity {
             ebayParser = new EbayParser(this);//this.context  here
         }
 
-        String testTitle = null, testImage = null;
+        int length;
         try {//this needs to be in a loop to get like 10 items
             searchResponse = ebayApi.search("s3");
-            Log.d("search response", searchResponse);
-            //parse the json myself
+
+            //parse the json all by myself
+            JSONObject jsonObject = new JSONObject(searchResponse);
+            JSONArray itemsResults = (JSONArray) jsonObject.get("findItemsAdvancedResponse");//
+            JSONObject aResult = (JSONObject) itemsResults.get(0);
+            JSONArray theSearchResult = (JSONArray) aResult.get("searchResult");
+            JSONObject aaResult = (JSONObject) theSearchResult.get(0);
+            //Log.d("json parse result", String.valueOf(aaResult.get("@count")));//the long way
+            length = (int) aaResult.get("@count");
             try {
-                JSONObject jsonObject = new JSONObject(searchResponse);
-                JSONArray itemsResults = (JSONArray) jsonObject.get("findItemsAdvancedResponse");//
-                JSONObject aResult = (JSONObject) itemsResults.get(0);
-                JSONArray theSearchResult = (JSONArray) aResult.get("searchResult");
-                JSONObject aaResult = (JSONObject) theSearchResult.get(0);
-                JSONArray itemm = (JSONArray) aaResult.get("item");
-                JSONObject oitem = (JSONObject) itemm.get(0);
-                //Log.d("json parse result", String.valueOf(oitem.get("title")));//the long way
-                //Log.d("single line jsonParse", String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(0).get("title")));
-                testTitle = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(0).get("title")));
-                testImage = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(0).get("galleryURL")));
+                title[0] = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(0).get("title")));
+                image[0] = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(0).get("galleryURL")));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -77,14 +75,11 @@ public class CaseList extends AppCompatActivity {
 //were going to get rid of ebayparser and Listing
 
 
-            Log.d("test image", testImage);
-            //Picasso.with(getApplicationContext()).load(testImage).fit().centerInside().into(img);//
-            image[0] = testImage;
-            title[0] = testTitle;
+            Log.d("test image", image[0]);
             Log.d("title", title[0]);
             price[0] = "32.10";
             shipping[0] = "2.65";
-// end of example data
+//should get rid of example data
 
             listItemView = (ListView) findViewById(R.id.phoneCaseListView);
 
