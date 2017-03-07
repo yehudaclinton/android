@@ -23,11 +23,12 @@ public class CaseList extends AppCompatActivity {
     ListView listItemView;
     StrictMode.ThreadPolicy async = new StrictMode.ThreadPolicy.Builder().permitAll().build();//bypass using async
 
-    final String[] image = new String[2];
-    final String[] title = new String[2];
-    final String[] price = new String[2];
-    final String[] shipping = new String[2];
-    final String[] itemUrl = new String[2];
+    final String[] image = new String[10];
+    final String[] title = new String[10];
+    final String[] price = new String[10];
+    final String[] shipping = new String[10];
+    final String[] itemUrl = new String[10];
+    private int length;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +44,9 @@ public class CaseList extends AppCompatActivity {
             ebayApi = new EbayApi(this);//figured it out
         }
         String searchResponse;
-        int length;
+
         try {//this needs to be in a loop to get like 10 items
-            searchResponse = ebayApi.search("oneplus");
+            searchResponse = ebayApi.search("for oneplus1");
 
             //parse the json all by myself
             JSONObject jsonObject = new JSONObject(searchResponse);
@@ -73,7 +74,7 @@ public class CaseList extends AppCompatActivity {
 
             listItemView = (ListView) findViewById(R.id.phoneCaseListView);
 
-            listItemView.setAdapter(new List(this, title, price, shipping, image));//
+            listItemView.setAdapter(new List(this, title, price, shipping, image, length));//
 
             listItemView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 //clicking on item to go to browser
@@ -92,8 +93,8 @@ public class CaseList extends AppCompatActivity {
     //get rid of the '[' and other stuff in json
     private String jsonFixer(String jf) {
         try {
-            Log.d("stripWrapperBefore", jf);
             jf = jf.replaceAll("[^a-zA-Z1234567890 _.:/]", "");
+            Log.d("stripWrapperBefore", jf);
         } catch (Exception x) {
             Log.d("json fixer", "errrrror");
         }

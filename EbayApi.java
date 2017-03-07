@@ -2,8 +2,8 @@ package com.clinton.yehuda.buyaphonecase;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.StrictMode;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -18,9 +18,7 @@ public class EbayApi{// extends AppCompatActivity
     private static String ebayURL = "http://svcs.ebay.com/";
     private Resources resources;//err
     private HttpURLConnection urlConnection = null;
-
-    //bypass using async
-    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+private String theChoice = MainActivity.catChoice;
 
     public EbayApi(Context context){//context depreciated no longer need them for resources
         this.resources=context.getResources();
@@ -38,7 +36,8 @@ public class EbayApi{// extends AppCompatActivity
         return (jsonResponse);
     }
 
-    private String getRequestURL(String keyword) {
+    private String getRequestURL(String keyword) {//
+        Log.d("requestURL", theChoice);
         CharSequence requestURL = TextUtils.expandTemplate(this.resources.getString(R.string.ebay_request_template), ebayURL, appID, keyword);
         return (requestURL.toString());
     }
@@ -46,10 +45,10 @@ public class EbayApi{// extends AppCompatActivity
     private String invokeEbayRest(String keyword) throws Exception {
         String result = null;
 
-        URL url = new URL(this.getRequestURL(URLEncoder.encode(keyword, "UTF-8")));
+        URL url = new URL(this.getRequestURL(URLEncoder.encode(keyword, "UTF-8")));///////////
 
         urlConnection = (HttpURLConnection) url.openConnection();
-        InputStream in = new BufferedInputStream(urlConnection.getInputStream());///////////
+        InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
         if (in != null) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));

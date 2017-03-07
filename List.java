@@ -13,44 +13,45 @@ import com.squareup.picasso.Picasso;
 
 public class List extends BaseAdapter {
 
-        Context context;
-        String[] theImage;
-        String[] firsttxt;
-        String[] secondtxt;
-        String[] thirdtxt;
-        private static LayoutInflater inflater = null;
+    Context context;
+    String[] theImage;
+    String[] firsttxt;
+    String[] secondtxt;
+    String[] thirdtxt;
+    int listLength;
+    private static LayoutInflater inflater = null;
 
-    public List(CaseList mainActivity, String[] itemName, String[] itemPrice, String[] shippingCost, String[] itemImage) {//, int[] itemImage
+    public List(CaseList mainActivity, String[] itemName, String[] itemPrice, String[] shippingCost, String[] itemImage, int legnth) {
+        context = mainActivity;
+        theImage = itemImage;
+        firsttxt = itemName;
+        secondtxt = itemPrice;
+        thirdtxt = shippingCost;
+        listLength = legnth;
+        inflater = (LayoutInflater) context.
+                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
 
-            context = mainActivity;
-            theImage = itemImage;
-            firsttxt = itemName;
-            secondtxt = itemPrice;
-            thirdtxt = shippingCost;
-            inflater = (LayoutInflater) context.
-                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
+    public int getCount() {
+        return listLength;
+    }
 
-        public int getCount() {
-            return firsttxt.length;
-        }
+    public Object getItem(int position) {
+        return position;
+    }
 
-        public Object getItem(int position) {
-            return position;
-        }
-
-        public long getItemId(int position) {
-            return position;
-        }
+    public long getItemId(int position) {
+        return position;
+    }
 
     public class Holder {
-            ImageView img;
-            TextView tv1;
-            TextView tv2;
-            TextView tv3;
-        }
+        ImageView img;
+        TextView tv1;
+        TextView tv2;
+        TextView tv3;
+    }
 
-    public View getView(final int position, View convertView, ViewGroup parent){
+    public View getView(final int position, View convertView, ViewGroup parent) {
         Holder holder = new Holder();
         View rowView = inflater.inflate(R.layout.activity_list, null);
         holder.img = (ImageView) rowView.findViewById(R.id.imageView1);
