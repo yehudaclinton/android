@@ -18,13 +18,11 @@ import org.json.JSONObject;
 public class CaseList extends AppCompatActivity {
 
     private static EbayApi ebayApi;
-    private static EbayParser ebayParser;
+
     private Uri uri;
     ListView listItemView;
     StrictMode.ThreadPolicy async = new StrictMode.ThreadPolicy.Builder().permitAll().build();//bypass using async
 
-    //final int[] image = new int[1];
-    //ImageView img;//
     final String[] image = new String[2];
     final String[] title = new String[2];
     final String[] price = new String[2];
@@ -36,7 +34,6 @@ public class CaseList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_case_list);
         StrictMode.setThreadPolicy(async);//bypass using async
-        //img = (ImageView) findViewById(R.id.imageView1);//view is also commented
         doit();
     }
 
@@ -46,13 +43,9 @@ public class CaseList extends AppCompatActivity {
         if (ebayApi == null) {
             ebayApi = new EbayApi(this);//figured it out
         }
-        if (ebayParser == null) {
-            ebayParser = new EbayParser(this);//this.context  here
-        }
-
         int length;
         try {//this needs to be in a loop to get like 10 items
-            searchResponse = ebayApi.search("s3");
+            searchResponse = ebayApi.search("oneplus");
 
             //parse the json all by myself
             JSONObject jsonObject = new JSONObject(searchResponse);
@@ -87,14 +80,11 @@ public class CaseList extends AppCompatActivity {
             listItemView.setAdapter(new List(this, title, price, shipping, image));//
 
             listItemView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                //clicking on title to go to browser
+                //clicking on item to go to browser
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    //make url intent
                     uri = Uri.parse(itemUrl[position]);
                     goToSite();
                 }
-
             });
             //}//end of populate list
 
