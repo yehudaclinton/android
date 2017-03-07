@@ -34,15 +34,15 @@ public class CaseList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_case_list);
         StrictMode.setThreadPolicy(async);//bypass using async
-        doit();
+        populateList();
     }
 
-    public void doit() {
+    public void populateList() {
 
-        String searchResponse = "blank";//this is unprofessional
         if (ebayApi == null) {
             ebayApi = new EbayApi(this);//figured it out
         }
+        String searchResponse;
         int length;
         try {//this needs to be in a loop to get like 10 items
             searchResponse = ebayApi.search("oneplus");
@@ -53,27 +53,23 @@ public class CaseList extends AppCompatActivity {
             JSONObject aResult = (JSONObject) itemsResults.get(0);
             JSONArray theSearchResult = (JSONArray) aResult.get("searchResult");
             JSONObject aaResult = (JSONObject) theSearchResult.get(0);
-            Log.d("count", String.valueOf(aaResult.get("@count")));//the long way
+            Log.d("item count", String.valueOf(aaResult.get("@count")));//the long way
             length = Integer.parseInt((String) aaResult.get("@count"));
             //loop through all the items
-            for(int i=0; i<length; i++){
-            try {
-                title[i] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("title")));
-                image[i] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("galleryURL")));
-                price[i] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("sellingStatus").getJSONObject(0).getJSONArray("currentPrice").getJSONObject(0).get("__value__"));
-                shipping[i] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("shippingInfo").getJSONObject(0).getJSONArray("shippingServiceCost").getJSONObject(0).get("__value__"));
-                itemUrl[i] = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("viewItemURL")));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }//end of loop
-
-//were going to get rid of ebayparser and Listing
+            for (int i = 0; i < length; i++) {
+                try {
+                    title[i] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("title")));
+                    image[i] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("galleryURL")));
+                    price[i] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("sellingStatus").getJSONObject(0).getJSONArray("currentPrice").getJSONObject(0).get("__value__"));
+                    shipping[i] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("shippingInfo").getJSONObject(0).getJSONArray("shippingServiceCost").getJSONObject(0).get("__value__"));
+                    itemUrl[i] = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("viewItemURL")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }//end of loop
 
             Log.d("title", title[0]);
             Log.d("viewItemURL", itemUrl[0]);
-
-//should get rid of example data
 
             listItemView = (ListView) findViewById(R.id.phoneCaseListView);
 
@@ -86,13 +82,12 @@ public class CaseList extends AppCompatActivity {
                     goToSite();
                 }
             });
-            //}//end of populate list
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-    }
+    }//end of populate list
 
     //get rid of the '[' and other stuff in json
     private String jsonFixer(String jf) {
@@ -104,7 +99,8 @@ public class CaseList extends AppCompatActivity {
         }
         return (jf);
     }
-    private String stripWrapper(String s){
+
+    private String stripWrapper(String s) {
         try {
             int end = s.length() - 2;
             return (s.substring(2, end));
