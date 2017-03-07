@@ -25,11 +25,11 @@ public class CaseList extends AppCompatActivity {
 
     //final int[] image = new int[1];
     //ImageView img;//
-    final String[] image = new String[1];
-    final String[] title = new String[1];
-    final String[] price = new String[1];
-    final String[] shipping = new String[1];
-    final String[] itemUrl = new String[1];
+    final String[] image = new String[2];
+    final String[] title = new String[2];
+    final String[] price = new String[2];
+    final String[] shipping = new String[2];
+    final String[] itemUrl = new String[2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,17 +62,18 @@ public class CaseList extends AppCompatActivity {
             JSONObject aaResult = (JSONObject) theSearchResult.get(0);
             Log.d("count", String.valueOf(aaResult.get("@count")));//the long way
             length = Integer.parseInt((String) aaResult.get("@count"));
-            //viewItemURL
+            //loop through all the items
+            for(int i=0; i<length; i++){
             try {
-                title[0] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(0).get("title")));
-                image[0] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(0).get("galleryURL")));
-                price[0] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(0).getJSONArray("sellingStatus").getJSONObject(0).getJSONArray("currentPrice").getJSONObject(0).get("__value__"));
-                shipping[0] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(0).getJSONArray("shippingInfo").getJSONObject(0).getJSONArray("shippingServiceCost").getJSONObject(0).get("__value__"));
-                itemUrl[0] = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(0).get("viewItemURL")));
+                title[i] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("title")));
+                image[i] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("galleryURL")));
+                price[i] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("sellingStatus").getJSONObject(0).getJSONArray("currentPrice").getJSONObject(0).get("__value__"));
+                shipping[i] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("shippingInfo").getJSONObject(0).getJSONArray("shippingServiceCost").getJSONObject(0).get("__value__"));
+                itemUrl[i] = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("viewItemURL")));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
+        }//end of loop
 
 //were going to get rid of ebayparser and Listing
 
