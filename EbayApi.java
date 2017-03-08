@@ -37,8 +37,9 @@ private String theChoice = MainActivity.catChoice;
     }
 
     private String getRequestURL(String keyword) {//
-        Log.d("requestURL", theChoice);
-        CharSequence requestURL = TextUtils.expandTemplate(this.resources.getString(R.string.ebay_request_template), ebayURL, appID, keyword);
+        Log.d("requestURL", theChoice);//this.resources.getString(R.string.ebay_request_template)
+        Log.d("requestURL template", this.resources.getString(R.string.ebay_request_template));
+        CharSequence requestURL = TextUtils.expandTemplate(theChoice, ebayURL, appID, keyword);
         return (requestURL.toString());
     }
 

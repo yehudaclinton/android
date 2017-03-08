@@ -1,5 +1,6 @@
 package com.clinton.yehuda.buyaphonecase;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,12 +15,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 //should really be called listview
-public class CaseList extends AppCompatActivity {
+public class CaseList extends Activity {
 
     private static EbayApi ebayApi;
 
     private Uri uri;
+    private String urlString;
     ListView listItemView;
     StrictMode.ThreadPolicy async = new StrictMode.ThreadPolicy.Builder().permitAll().build();//bypass using async
 
@@ -45,7 +50,7 @@ public class CaseList extends AppCompatActivity {
         }
         String searchResponse;
 
-        try {//this needs to be in a loop to get like 10 items
+        try {
             searchResponse = ebayApi.search("for oneplus1");
 
             //parse the json all by myself
@@ -61,6 +66,7 @@ public class CaseList extends AppCompatActivity {
                 try {
                     title[i] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("title")));
                     image[i] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("galleryURL")));
+                    //need to fix the url syntax for the images cuz many dont work
                     price[i] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("sellingStatus").getJSONObject(0).getJSONArray("currentPrice").getJSONObject(0).get("__value__"));
                     shipping[i] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("shippingInfo").getJSONObject(0).getJSONArray("shippingServiceCost").getJSONObject(0).get("__value__"));
                     itemUrl[i] = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("viewItemURL")));
@@ -69,8 +75,8 @@ public class CaseList extends AppCompatActivity {
                 }
             }//end of loop
 
-            Log.d("title", title[0]);
-            Log.d("viewItemURL", itemUrl[0]);
+//            Log.d("title", title[0]);
+//            Log.d("viewItemURL", itemUrl[0]);
 
             listItemView = (ListView) findViewById(R.id.phoneCaseListView);
 
@@ -80,6 +86,7 @@ public class CaseList extends AppCompatActivity {
                 //clicking on item to go to browser
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     uri = Uri.parse(itemUrl[position]);
+                    urlString = itemUrl[position];
                     goToSite();
                 }
             });
@@ -112,8 +119,19 @@ public class CaseList extends AppCompatActivity {
     }
 
     public void goToSite() {//to open item in browser
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(intent);
+//        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//        startActivity(intent);
+
+//        Log.d("url attempot", urlString);
+//        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
+//        startActivity(browserIntent);
+        try {
+            urlString = URLEncoder.encode(urlString, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://svcs.ebay.com/services/search/FindingService/v1?"+urlString)));
+
     }
 
 }
