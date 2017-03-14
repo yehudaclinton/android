@@ -49,13 +49,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.wallet:
-                catChoice = "wallet";
+                catChoice = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME%=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME%=^2&RESPONSE-DATA-FORMAT%=JSON&REST-PAYLOAD%=true&categoryId%=20349&aspectFilter.aspectName%=Type&aspectFilter(0).aspectValueName(0)%=Wallet&aspectFilter(0).aspectValueName(1)%=Pouch/Sleeve&paginationInput.entriesPerPage%=3";
                 clicked();
                 break;
 
             case R.id.clip:
-                catChoice = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&amp;SERVICE-VERSION=1.0.0&amp;SECURITY-APPNAME=^2&amp;RESPONSE-DATA-FORMAT=JSON&amp;REST-PAYLOAD=true&amp;categoryId=20349&amp;aspectFilter.aspectName=Type&amp;aspectFilter.aspectValueName=Clip&amp;paginationInput.entriesPerPage=3";
-                clicked();
+                catChoice = "OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=^2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&categoryId=20349&aspectFilter.aspectName=Type&aspectFilter.aspectValueName=Clip&paginationInput.entriesPerPage=3";
+                clicked();//http://svcs.ebay.com/services/search/FindingService/v1?
                 break;
 
             case R.id.water:
