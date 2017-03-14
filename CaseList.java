@@ -45,7 +45,7 @@ public class CaseList extends AppCompatActivity {
         }
         String searchResponse;
 
-        try {//this needs to be in a loop to get like 10 items
+        try {
             searchResponse = ebayApi.search("for oneplus1");
 
             //parse the json all by myself
@@ -61,6 +61,7 @@ public class CaseList extends AppCompatActivity {
                 try {
                     title[i] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("title")));
                     image[i] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("galleryURL")));
+                    //need to fix the url syntax for the images cuz many dont work
                     price[i] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("sellingStatus").getJSONObject(0).getJSONArray("currentPrice").getJSONObject(0).get("__value__"));
                     shipping[i] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("shippingInfo").getJSONObject(0).getJSONArray("shippingServiceCost").getJSONObject(0).get("__value__"));
                     itemUrl[i] = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("viewItemURL")));
@@ -93,8 +94,9 @@ public class CaseList extends AppCompatActivity {
     //get rid of the '[' and other stuff in json
     private String jsonFixer(String jf) {
         try {
-            jf = jf.replaceAll("[^a-zA-Z1234567890 _.:/]", "");
             Log.d("stripWrapperBefore", jf);
+            jf = jf.replaceAll("[^a-zA-Z1234567890_.:/-]", "");
+            Log.d("stripWrapperAfter", jf);
         } catch (Exception x) {
             Log.d("json fixer", "errrrror");
         }
