@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,9 +13,6 @@ import android.widget.ListView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 //should really be called listview
 public class CaseList extends Activity {
@@ -51,7 +47,7 @@ public class CaseList extends Activity {
         String searchResponse;
 
         try {
-            searchResponse = ebayApi.search("for oneplus1");
+            searchResponse = ebayApi.search("oneplus1");
 
             //parse the json all by myself
             JSONObject jsonObject = new JSONObject(searchResponse);
@@ -59,17 +55,17 @@ public class CaseList extends Activity {
             JSONObject aResult = (JSONObject) itemsResults.get(0);
             JSONArray theSearchResult = (JSONArray) aResult.get("searchResult");
             JSONObject aaResult = (JSONObject) theSearchResult.get(0);
-            Log.d("item count", String.valueOf(aaResult.get("@count")));//the long way
-            length = Integer.parseInt((String) aaResult.get("@count"));
+            length = Integer.parseInt((String) aaResult.get("@count"));//the long way
             //loop through all the items
             for (int i = 0; i < length; i++) {
                 try {
                     title[i] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("title")));
                     image[i] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("galleryURL")));
-                    //need to fix the url syntax for the images cuz many dont work
                     price[i] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("sellingStatus").getJSONObject(0).getJSONArray("currentPrice").getJSONObject(0).get("__value__"));
                     shipping[i] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("shippingInfo").getJSONObject(0).getJSONArray("shippingServiceCost").getJSONObject(0).get("__value__"));
                     itemUrl[i] = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("viewItemURL")));
+                    //need to fix the url syntax for loading in ebay
+                    Log.d("stripWrapperAfter", itemUrl[i]);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -100,9 +96,8 @@ public class CaseList extends Activity {
     //get rid of the '[' and other stuff in json
     private String jsonFixer(String jf) {
         try {
-            Log.d("stripWrapperBefore", jf);
-            jf = jf.replaceAll("[^a-zA-Z1234567890_.:/-]", "");
-            Log.d("stripWrapperAfter", jf);
+            jf = jf.replaceAll("[^a-zA-Z1234567890 _.:/-]", "");
+            Log.d("jasonFixerAfter", jf);
         } catch (Exception x) {
             Log.d("json fixer", "errrrror");
         }
@@ -111,6 +106,7 @@ public class CaseList extends Activity {
 
     private String stripWrapper(String s) {
         try {
+            Log.d("stripWrapperbefore", s);
             int end = s.length() - 2;
             return (s.substring(2, end));
         } catch (Exception x) {
@@ -126,12 +122,14 @@ public class CaseList extends Activity {
 //        Log.d("url attempot", urlString);
 //        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
 //        startActivity(browserIntent);
-        try {
-            urlString = URLEncoder.encode(urlString, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://svcs.ebay.com/services/search/FindingService/v1?"+urlString)));
+
+//        try {
+//            urlString = URLEncoder.encode(urlString, "utf-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+        urlString = this.jsonFixer(urlString);
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlString)));//"http://svcs.ebay.com/services/search/FindingService/v1?"+
 
     }
 

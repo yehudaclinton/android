@@ -44,17 +44,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
         switch (view.getId()) {
 
             case R.id.regular:
-                catChoice = "regular";
-                clicked();
+                catChoice = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=^2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&categoryId=20349&aspectFilter.aspectName=Compatible+Model&aspectFilter.aspectValueName=For+OnePlus+2&paginationInput.entriesPerPage=3";
+                clicked();//trying experimenting with the for the specific phone model////amp; not required
                 break;
 
             case R.id.wallet:
-                catChoice = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME%=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME%=^2&RESPONSE-DATA-FORMAT%=JSON&REST-PAYLOAD%=true&categoryId%=20349&aspectFilter.aspectName%=Type&aspectFilter(0).aspectValueName(0)%=Wallet&aspectFilter(0).aspectValueName(1)%=Pouch/Sleeve&paginationInput.entriesPerPage%=3";
+                catChoice = "http://svcs.ebay.com/services/search/FindingService/v1?" +
+                        "OPERATION-NAME=findItemsAdvanced&" +
+                        "SERVICE-VERSION=1.0.0&" +
+                        "SECURITY-APPNAME=^2&" +
+                        "RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&" +
+                        "categoryId=20349&" +
+                        "paginationInput.entriesPerPage=6&" +
+                        "aspectFilter(0).aspectName=Compatible+Model&" +
+                        "aspectFilter(0).aspectValueName=For+OnePlus+3" +//variable here also there are no wallet cases for 1+1
+                        "aspectFilter(1).aspectName=Type&" +
+                        "aspectFilter(1).aspectValueName(0)=Wallet&" +
+                        "aspectFilter(1).aspectValueName(1)=Pouch/Sleeve&";
                 clicked();
                 break;
 
             case R.id.clip:
-                catChoice = "OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=^2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&categoryId=20349&aspectFilter.aspectName=Type&aspectFilter.aspectValueName=Clip&paginationInput.entriesPerPage=3";
+                catChoice = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=^2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&categoryId=20349&aspectFilter.aspectName=Type&aspectFilter.aspectValueName=Clip&paginationInput.entriesPerPage=3";
                 clicked();//http://svcs.ebay.com/services/search/FindingService/v1?
                 break;
 

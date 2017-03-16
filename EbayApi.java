@@ -20,7 +20,7 @@ public class EbayApi{// extends AppCompatActivity
     private HttpURLConnection urlConnection = null;
 private String theChoice = MainActivity.catChoice;
 
-    public EbayApi(Context context){//context depreciated no longer need them for resources
+    public EbayApi(Context context){
         this.resources=context.getResources();
 //        appID = this.resources.getString(R.string.ebay_appid_production);////"" is depreciated
 //        ebayURL = this.resources.getString(R.string.ebay_wsurl_production);//this.resources.getString(R.string.ebay_wsurl_production);
