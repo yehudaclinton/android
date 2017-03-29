@@ -48,7 +48,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 clicked();//trying experimenting with the for the specific phone model////amp; not required
                 break;
 
-            case R.id.wallet:
+            case R.id.wallet:// the search strings shouldnt be in mainactivity
                 catChoice = "http://svcs.ebay.com/services/search/FindingService/v1?" +
                         "OPERATION-NAME=findItemsAdvanced&" +
                         "SERVICE-VERSION=1.0.0&" +
@@ -57,7 +57,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         "categoryId=20349&" +
                         "paginationInput.entriesPerPage=6&" +
                         "aspectFilter(0).aspectName=Compatible+Model&" +
-                        "aspectFilter(0).aspectValueName=For+OnePlus+3" +//variable here also there are no wallet cases for 1+1
+                        "aspectFilter(0).aspectValueName=For+OnePlus+3&" +//variable here also there are no wallet cases for 1+1
                         "aspectFilter(1).aspectName=Type&" +
                         "aspectFilter(1).aspectValueName(0)=Wallet&" +
                         "aspectFilter(1).aspectValueName(1)=Pouch/Sleeve&";
@@ -65,12 +65,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.clip:
-                catChoice = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=^2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&categoryId=20349&aspectFilter.aspectName=Type&aspectFilter.aspectValueName=Clip&paginationInput.entriesPerPage=3";
+                catChoice = "http://svcs.ebay.com/services/search/FindingService/v1?" +
+                        "OPERATION-NAME=findItemsAdvanced&" +
+                        "SERVICE-VERSION=1.0.0&" +
+                        "SECURITY-APPNAME=^2&" +
+                        "RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&" +
+                        "categoryId=20349&" +
+                        "paginationInput.entriesPerPage=6&" +
+                        "aspectFilter(0).aspectName=Compatible+Model&" +
+                        "aspectFilter(0).aspectValueName=For+OnePlus+3&" +//variable here
+                        "aspectFilter(1).aspectName=Type&" +
+                        "aspectFilter(1).aspectValueName=Clip&";
                 clicked();//http://svcs.ebay.com/services/search/FindingService/v1?
                 break;
 
             case R.id.water:
-                catChoice = "water";
+                catChoice = "http://webservices.amazon.com/onca/xml?" +
+                        "  Service=AWSECommerceService" +//the answer to my problem is maxoutput
+                        "  &Operation=ItemSearch" +
+                        "  &ResponseGroup=Small" +
+                        "  &SearchIndex=All" +
+                        "  &Keywords=harry_potter" +
+                        "  &AWSAccessKeyId=AKIAIKRF6RMVHONGZWZA";
                 clicked();
                 break;
 
