@@ -51,12 +51,12 @@ public class CaseList extends Activity {
 
             //parse the json all by myself
             JSONObject jsonObject = new JSONObject(searchResponse);
-            JSONArray itemsResults = (JSONArray) jsonObject.get("findItemsAdvancedResponse");//
+            JSONArray itemsResults = (JSONArray) jsonObject.get("findItemsAdvancedResponse");//but what if i not 'advance'
             JSONObject aResult = (JSONObject) itemsResults.get(0);
             JSONArray theSearchResult = (JSONArray) aResult.get("searchResult");
             JSONObject aaResult = (JSONObject) theSearchResult.get(0);
             length = Integer.parseInt((String) aaResult.get("@count"));//the long way
-            //loop through all the items
+            //loop through all the itemshttps://
             for (int i = 0; i < length; i++) {
                 try {
                     title[i] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("title")));

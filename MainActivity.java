@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
+    //when i go back to the mainactivity from the list view it doesnt change the search
+
     TextView devicetxt;
     ImageView imgv;
     public static String catChoice;
@@ -80,13 +82,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.water:
-                catChoice = "http://webservices.amazon.com/onca/xml?" +
-                        "  Service=AWSECommerceService" +//the answer to my problem is maxoutput
-                        "  &Operation=ItemSearch" +
-                        "  &ResponseGroup=Small" +
-                        "  &SearchIndex=All" +
-                        "  &Keywords=harry_potter" +
-                        "  &AWSAccessKeyId=AKIAIKRF6RMVHONGZWZA";
+                catChoice = "http://svcs.ebay.com/services/search/FindingService/v1?" +
+                        "OPERATION-NAME=findItemsAdvanced&" +
+                        "SERVICE-VERSION=1.0.0&" +
+                        "SECURITY-APPNAME=^2&" +
+                        "RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&" +
+                        "categoryId=20349&" +
+                        "paginationInput.entriesPerPage=6&" +
+                        "aspectFilter(0).aspectName=Compatible+Model&" +
+                        "aspectFilter(0).aspectValueName=For+OnePlus+3&" +//variable here also there are no wallet cases for 1+1
+                        "aspectFilter(1).aspectName=Features&" +
+                        "aspectFilter(1).aspectValueName(0)=Waterproof&" +
+                        "aspectFilter(1).aspectValueName(1)=Water+Resistant&";
                 clicked();
                 break;
 
