@@ -26,27 +26,27 @@ private String theChoice = MainActivity.catChoice;
 //        ebayURL = this.resources.getString(R.string.ebay_wsurl_production);//this.resources.getString(R.string.ebay_wsurl_production);
    }
 
-    public String search(String keyword) throws Exception {
+    public String search() throws Exception {
         String jsonResponse = null;
-        jsonResponse = invokeEbayRest(keyword);
+        jsonResponse = invokeEbayRest();
 
         if ((jsonResponse == null) || (jsonResponse.length() < 1)) {
-            throw (new Exception("No result received from invokeEbayRest(" + keyword + ")"));
+            throw (new Exception("No result received from invokeEbayRest"));
         }
         return (jsonResponse);
     }
 
-    private String getRequestURL(String keyword) {//
+    private String getRequestURL() {//
         Log.d("requestURL", theChoice);//this.resources.getString(R.string.ebay_request_template)
         Log.d("requestURL template", this.resources.getString(R.string.ebay_request_template));
-        CharSequence requestURL = TextUtils.expandTemplate(theChoice, ebayURL, appID, keyword);
+        CharSequence requestURL = TextUtils.expandTemplate(theChoice, ebayURL, appID);
         return (requestURL.toString());
     }
 
-    private String invokeEbayRest(String keyword) throws Exception {
+    private String invokeEbayRest() throws Exception {
         String result = null;
 
-        URL url = new URL(this.getRequestURL(URLEncoder.encode(keyword, "UTF-8")));///////////
+        URL url = new URL(this.getRequestURL());/////
 
         urlConnection = (HttpURLConnection) url.openConnection();
         InputStream in = new BufferedInputStream(urlConnection.getInputStream());
