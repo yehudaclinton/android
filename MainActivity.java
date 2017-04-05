@@ -54,10 +54,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         "SERVICE-VERSION=1.0.0&" +
                         "SECURITY-APPNAME=^2&" +
                         "RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&" +
-                        "categoryId=20349&" +
+                        "categoryId=20349&" +//catagory for skins and cases
                         "paginationInput.entriesPerPage=6&" +
+                        "paginationInput.pageNumber=11&" +
                         "aspectFilter(0).aspectName=Compatible+Model&" +
-                        "aspectFilter(0).aspectValueName=For+OnePlus+3" +//variable here also there are no wallet cases for 1+1
+                        "aspectFilter(0).aspectValueName=For+OnePlus+3&" +//variable here also there are no wallet cases for 1+1
                         "aspectFilter(1).aspectName=Type&" +
                         "aspectFilter(1).aspectValueName(0)=Wallet&" +
                         "aspectFilter(1).aspectValueName(1)=Pouch/Sleeve&";
@@ -65,12 +66,24 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.clip:
-                catChoice = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=^2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&categoryId=20349&aspectFilter.aspectName=Type&aspectFilter.aspectValueName=Clip&paginationInput.entriesPerPage=3";
+                catChoice = "http://svcs.ebay.com/services/search/FindingService/v1?" +
+                        "OPERATION-NAME=findItemsAdvanced&" +
+                        "SERVICE-VERSION=1.0.0&" +
+                        "SECURITY-APPNAME=^2&" +
+                        "RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&" +
+                        "categoryId=20349&" +//catagory for skins and cases
+                        "paginationInput.entriesPerPage=6&" +
+                        "paginationInput.pageNumber=11&" +
+                        "aspectFilter(0).aspectName=Compatible+Model&" +
+                        "aspectFilter(0).aspectValueName=For+OnePlus+3&" +//variable here also there are no wallet cases for 1+1
+                        "aspectFilter(1).aspectName=Type&" +
+                        "aspectFilter.aspectValueName=Clip";
                 clicked();//http://svcs.ebay.com/services/search/FindingService/v1?
                 break;
 
             case R.id.water:
                 catChoice = "water";
+                //make say "sorry there are no water proof ones for you device"
                 clicked();
                 break;
 
