@@ -1,6 +1,7 @@
 package com.clinton.yehuda.buyaphonecase;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,17 +55,21 @@ public class List extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         Holder holder = new Holder();
         View rowView = inflater.inflate(R.layout.activity_list, null);
-        holder.img = (ImageView) rowView.findViewById(R.id.imageView1);
-        holder.tv1 = (TextView) rowView.findViewById(R.id.textView1);
-        holder.tv2 = (TextView) rowView.findViewById(R.id.textView2);
-        holder.tv3 = (TextView) rowView.findViewById(R.id.textView3);
+        Log.d("theImage", theImage[position]);
+        if(theImage[position] != "http://thumbs1.ebaystatic.com/pict/04040_0.jpg") {
+            holder.img = (ImageView) rowView.findViewById(R.id.imageView1);
+            holder.tv1 = (TextView) rowView.findViewById(R.id.textView1);
+            holder.tv2 = (TextView) rowView.findViewById(R.id.textView2);
+            holder.tv3 = (TextView) rowView.findViewById(R.id.textView3);
 
-        //holder.img.setImageResource(theImage[0]);// but i dont know how to int image resource so i just picasso
-        Picasso.with(context.getApplicationContext()).load(theImage[position]).fit().centerInside().into(holder.img);//
+            //holder.img.setImageResource(theImage[0]);// but i dont know how to int image resource so i just picasso
+            Picasso.with(context.getApplicationContext()).load(theImage[position]).fit().centerInside().into(holder.img);//
 
-        holder.tv1.setText(firsttxt[position]);
-        holder.tv2.setText(secondtxt[position]);
-        holder.tv3.setText(thirdtxt[position]);
+            holder.tv1.setText(firsttxt[position]);
+            holder.tv2.setText(secondtxt[position]);
+            holder.tv3.setText(thirdtxt[position]);
+
+        }
         return rowView;
     }
 }
