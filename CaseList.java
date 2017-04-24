@@ -61,11 +61,10 @@ public class CaseList extends Activity {
                 try {
                     title[i] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("title")));
                     image[i] = this.jsonFixer(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("galleryURL")));
-                    price[i] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("sellingStatus").getJSONObject(0).getJSONArray("currentPrice").getJSONObject(0).get("__value__"));
-                    shipping[i] = String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("shippingInfo").getJSONObject(0).getJSONArray("shippingServiceCost").getJSONObject(0).get("__value__"));
+                    price[i] = "$"+String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("sellingStatus").getJSONObject(0).getJSONArray("currentPrice").getJSONObject(0).get("__value__"));
+                    shipping[i] = "$"+String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).getJSONArray("shippingInfo").getJSONObject(0).getJSONArray("shippingServiceCost").getJSONObject(0).get("__value__"));
                     itemUrl[i] = this.stripWrapper(String.valueOf(jsonObject.getJSONArray("findItemsAdvancedResponse").getJSONObject(0).getJSONArray("searchResult").getJSONObject(0).getJSONArray("item").getJSONObject(i).get("viewItemURL")));
-                    //need to fix the url syntax for loading in ebay
-                    Log.d("stripWrapperAfter", itemUrl[i]);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -95,7 +94,9 @@ public class CaseList extends Activity {
 
     //get rid of the '[' and other stuff in json
     private String jsonFixer(String jf) {
+        Log.d("jasonFixerBefore", jf);
         try {
+//            jf = jf.replaceAll("[\\\\]", "/");//doesnt appear to help
             jf = jf.replaceAll("[^a-zA-Z1234567890 _.:/-]", "");
             Log.d("jasonFixerAfter", jf);
         } catch (Exception x) {
@@ -106,7 +107,7 @@ public class CaseList extends Activity {
 
     private String stripWrapper(String s) {
         try {
-            Log.d("stripWrapperbefore", s);
+//            Log.d("stripWrapperbefore", s);
             int end = s.length() - 2;
             return (s.substring(2, end));
         } catch (Exception x) {

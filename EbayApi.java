@@ -11,20 +11,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
-public class EbayApi{// extends AppCompatActivity
+public class EbayApi {// extends AppCompatActivity
     private static String appID = "yehudacl-phoneCas-PRD-d246ab013-afbfbdc4";
     private static String ebayURL = "http://svcs.ebay.com/";
     private Resources resources;//err
     private HttpURLConnection urlConnection = null;
-private String theChoice = MainActivity.catChoice;
+    private String theChoice;
 
-    public EbayApi(Context context){
-        this.resources=context.getResources();
-//        appID = this.resources.getString(R.string.ebay_appid_production);////"" is depreciated
-//        ebayURL = this.resources.getString(R.string.ebay_wsurl_production);//this.resources.getString(R.string.ebay_wsurl_production);
-   }
+
+    public EbayApi(Context context) {
+        this.resources = context.getResources();
+    }
 
     public String search() throws Exception {
         String jsonResponse = null;
@@ -37,8 +35,9 @@ private String theChoice = MainActivity.catChoice;
     }
 
     private String getRequestURL() {//
-        Log.d("requestURL", theChoice);//this.resources.getString(R.string.ebay_request_template)
-        Log.d("requestURL template", this.resources.getString(R.string.ebay_request_template));
+        theChoice = MainActivity.catChoice;
+        Log.d("get choice", theChoice);
+//        Log.d("requestURL template", this.resources.getString(R.string.ebay_request_template));
         CharSequence requestURL = TextUtils.expandTemplate(theChoice, ebayURL, appID);
         return (requestURL.toString());
     }
@@ -46,7 +45,7 @@ private String theChoice = MainActivity.catChoice;
     private String invokeEbayRest() throws Exception {
         String result = null;
 
-        URL url = new URL(this.getRequestURL());/////
+        URL url = new URL(this.getRequestURL());///////////
 
         urlConnection = (HttpURLConnection) url.openConnection();
         InputStream in = new BufferedInputStream(urlConnection.getInputStream());
