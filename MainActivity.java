@@ -10,21 +10,22 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
-    //when i go back to the mainactivity from the list view it doesnt change the search
+    //when i go back to the mainactivity from the list view it doesnt change the search. now it does
 
     TextView devicetxt;
-    ImageView imgv;
+    String deviceName;
     public static String catChoice;
+    public static String keyword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         devicetxt = (TextView) findViewById(R.id.textView);
-        devicetxt.setText(android.os.Build.MODEL);
-        imgv = (ImageView) findViewById(R.id.testview);
-        //DeviceName.getDeviceName(); //i cant test this on emulator
+        deviceName = android.os.Build.MANUFACTURER+" "+android.os.Build.MODEL;
+        devicetxt.setText("your device name is "+deviceName);//
         //I should also implement only ones that ship to your location location
+        //android.os.Build.MANUFACTURER+"+"+android.os.Build.MODEL
 
         ImageButton one = (ImageButton) findViewById(R.id.regular);
         one.setOnClickListener(this); // calling onClick() method
@@ -46,8 +47,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
         switch (view.getId()) {
 
             case R.id.regular:
-                catChoice = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=^2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&categoryId=20349&aspectFilter.aspectName=Compatible+Model&aspectFilter.aspectValueName=For+OnePlus+2&paginationInput.entriesPerPage=3";
-                clicked();//trying experimenting with the for the specific phone model////amp; not required
+                keyword = deviceName;//i probably need to replace the space with a plus
+                catChoice = "http://svcs.ebay.com/services/search/FindingService/v1?" +
+                        "OPERATION-NAME=findItemsAdvanced&" +
+                        "SERVICE-VERSION=1.0.0&" +
+                        "SECURITY-APPNAME=^2&" +
+                        "RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&" +
+                        "categoryId=20349&" +
+                        "paginationInput.entriesPerPage=6&" ;//+
+//                        "aspectFilter.aspectName=Compatible+Model&" +
+//                        "aspectFilter.aspectValueName=For+Blackview+A8";
+                clicked();///amp; not required// there are no A5 only A8//insted it keywords it
                 break;
 
             case R.id.wallet:// the search strings shouldnt be in mainactivity
@@ -75,7 +85,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         "categoryId=20349&" +
                         "paginationInput.entriesPerPage=6&" +
                         "aspectFilter(0).aspectName=Compatible+Model&" +
-                        "aspectFilter(0).aspectValueName=For+OnePlus+3&" +//variable here
+                        "aspectFilter(0).aspectValueName=For+"+android.os.Build.MANUFACTURER+"+"+android.os.Build.MODEL+"&" +//OnePlus+3
                         "aspectFilter(1).aspectName=Type&" +
                         "aspectFilter(1).aspectValueName=Clip&";
                 clicked();//http://svcs.ebay.com/services/search/FindingService/v1?

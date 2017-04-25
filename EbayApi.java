@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 public class EbayApi {// extends AppCompatActivity
     private static String appID = "yehudacl-phoneCas-PRD-d246ab013-afbfbdc4";
@@ -24,9 +25,9 @@ public class EbayApi {// extends AppCompatActivity
         this.resources = context.getResources();
     }
 
-    public String search() throws Exception {
+    public String search(String keyword) throws Exception {//
         String jsonResponse = null;
-        jsonResponse = invokeEbayRest();
+        jsonResponse = invokeEbayRest(keyword);
 
         if ((jsonResponse == null) || (jsonResponse.length() < 1)) {
             throw (new Exception("No result received from invokeEbayRest"));
@@ -34,18 +35,19 @@ public class EbayApi {// extends AppCompatActivity
         return (jsonResponse);
     }
 
-    private String getRequestURL() {//
+    private String getRequestURL(String keyword) {//
         theChoice = MainActivity.catChoice;
         Log.d("get choice", theChoice);
+        Log.d("keyword",MainActivity.keyword);
 //        Log.d("requestURL template", this.resources.getString(R.string.ebay_request_template));
-        CharSequence requestURL = TextUtils.expandTemplate(theChoice, ebayURL, appID);
+        CharSequence requestURL = TextUtils.expandTemplate(theChoice, ebayURL, appID, keyword);//
         return (requestURL.toString());
     }
 
-    private String invokeEbayRest() throws Exception {
+    private String invokeEbayRest(String keyword) throws Exception {//
         String result = null;
 
-        URL url = new URL(this.getRequestURL());///////////
+        URL url = new URL(this.getRequestURL(URLEncoder.encode(keyword, "UTF-8")));/////
 
         urlConnection = (HttpURLConnection) url.openConnection();
         InputStream in = new BufferedInputStream(urlConnection.getInputStream());
