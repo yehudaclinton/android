@@ -16,7 +16,7 @@ import java.net.URLEncoder;
 public class EbayApi {// extends AppCompatActivity
     private static String appID = "yehudacl-phoneCas-PRD-d246ab013-afbfbdc4";
     private static String ebayURL = "http://svcs.ebay.com/";
-    private Resources resources;//err
+    private Resources resources;//dont remove
     private HttpURLConnection urlConnection = null;
     private String theChoice;
 
@@ -27,11 +27,25 @@ public class EbayApi {// extends AppCompatActivity
 
     public String search(String keyword) throws Exception {//
         String jsonResponse = null;
-        jsonResponse = invokeEbayRest(keyword);
+        jsonResponse = invokeEbayRest(keyword);//
+        Log.d("json response", jsonResponse);//.contains\"totalEntries\":[\"0\"]   then theChoice=
 
-        if ((jsonResponse == null) || (jsonResponse.length() < 1)) {
-            throw (new Exception("No result received from invokeEbayRest"));
-        }
+if(jsonResponse.contains("\"totalEntries\":[\"0\"]")){//if nothing is found try keyword
+    Log.d("json response", "Contains!!!");
+    theChoice = "http://svcs.ebay.com/services/search/FindingService/v1?" +
+            "OPERATION-NAME=findItemsByCategory&" +
+            "SERVICE-VERSION=1.0.0&" +
+            "SECURITY-APPNAME=^2&" +
+            "RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&" +
+            "categoryId=20349&" +
+            "keywords="+keyword+"&" +//^3
+            "paginationInput.entriesPerPage=6";
+    jsonResponse = invokeEbayRest(keyword);//
+    Log.d("json response special", jsonResponse);
+}
+//        if ((jsonResponse == null) || (jsonResponse.length() < 1)) {
+//            throw (new Exception("No result received from invokeEbayRest"));
+//        }
         return (jsonResponse);
     }
 
@@ -39,8 +53,8 @@ public class EbayApi {// extends AppCompatActivity
         theChoice = MainActivity.catChoice;
         Log.d("get choice", theChoice);
         Log.d("keyword",MainActivity.keyword);
-//        Log.d("requestURL template", this.resources.getString(R.string.ebay_request_template));
-        CharSequence requestURL = TextUtils.expandTemplate(theChoice, ebayURL, appID, keyword);//
+
+        CharSequence requestURL = TextUtils.expandTemplate(theChoice, ebayURL, appID, MainActivity.keyword);//
         return (requestURL.toString());
     }
 

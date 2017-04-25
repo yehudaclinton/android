@@ -47,7 +47,7 @@ public class CaseList extends Activity {
         String searchResponse;
 
         try {
-            searchResponse = ebayApi.search(MainActivity.keyword);//keyword
+            searchResponse = ebayApi.search(MainActivity.keyword);//
 
             //parse the json all by myself
             JSONObject jsonObject = new JSONObject(searchResponse);

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -54,9 +53,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         "SECURITY-APPNAME=^2&" +
                         "RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&" +
                         "categoryId=20349&" +
-                        "paginationInput.entriesPerPage=6&" ;//+
-//                        "aspectFilter.aspectName=Compatible+Model&" +
-//                        "aspectFilter.aspectValueName=For+Blackview+A8";
+                        "paginationInput.entriesPerPage=6&" +
+                        "aspectFilter.aspectName=Compatible+Model&" +
+                        "aspectFilter.aspectValueName=For+"+android.os.Build.MANUFACTURER+"+"+android.os.Build.MODEL;
                 clicked();///amp; not required// there are no A5 only A8//insted it keywords it
                 break;
 
@@ -69,7 +68,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         "categoryId=20349&" +
                         "paginationInput.entriesPerPage=6&" +
                         "aspectFilter(0).aspectName=Compatible+Model&" +
-                        "aspectFilter(0).aspectValueName=For+OnePlus+3&" +//variable here also there are no wallet cases for 1+1
+                        "aspectFilter(0).aspectValueName=For+"+android.os.Build.MANUFACTURER+"+"+android.os.Build.MODEL+"&" +//variable here also there are no wallet cases for 1+1
                         "aspectFilter(1).aspectName=Type&" +
                         "aspectFilter(1).aspectValueName(0)=Wallet&" +
                         "aspectFilter(1).aspectValueName(1)=Pouch/Sleeve&";
@@ -100,7 +99,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         "categoryId=20349&" +
                         "paginationInput.entriesPerPage=6&" +
                         "aspectFilter(0).aspectName=Compatible+Model&" +
-                        "aspectFilter(0).aspectValueName=For+OnePlus+3&" +//variable here also there are no wallet cases for 1+1
+                        "aspectFilter(0).aspectValueName=For+"+android.os.Build.MANUFACTURER+"+"+android.os.Build.MODEL+"&" +//variable here
                         "aspectFilter(1).aspectName=Features&" +
                         "aspectFilter(1).aspectValueName(0)=Waterproof&" +
                         "aspectFilter(1).aspectValueName(1)=Water+Resistant&";
