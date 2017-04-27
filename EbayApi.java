@@ -25,15 +25,16 @@ public class EbayApi {// extends AppCompatActivity
         this.resources = context.getResources();
     }
 
-    public String search(String keyword) throws Exception {//
+    public String search(String keyword) throws Exception {
         String jsonResponse = null;
-        jsonResponse = invokeEbayRest(keyword);//
-        Log.d("json response", jsonResponse);//.contains\"totalEntries\":[\"0\"]   then theChoice=
+        theChoice = MainActivity.catChoice;
+        jsonResponse = invokeEbayRest(keyword);
+        Log.d("json response", jsonResponse);
 
-if(jsonResponse.contains("\"totalEntries\":[\"0\"]")){//if nothing is found try keyword
+if(jsonResponse.contains("\"totalEntries\":[\"0\"]")){//if contains this means that nothing is found
     Log.d("json response", "Contains!!!");
     theChoice = "http://svcs.ebay.com/services/search/FindingService/v1?" +
-            "OPERATION-NAME=findItemsByCategory&" +
+            "OPERATION-NAME=findItemsAdvanced&" +
             "SERVICE-VERSION=1.0.0&" +
             "SECURITY-APPNAME=^2&" +
             "RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&" +
@@ -43,14 +44,13 @@ if(jsonResponse.contains("\"totalEntries\":[\"0\"]")){//if nothing is found try 
     jsonResponse = invokeEbayRest(keyword);//
     Log.d("json response special", jsonResponse);
 }
-//        if ((jsonResponse == null) || (jsonResponse.length() < 1)) {
-//            throw (new Exception("No result received from invokeEbayRest"));
-//        }
+        if ((jsonResponse == null) || (jsonResponse.length() < 1)) {
+            throw (new Exception("No result received from invokeEbayRest"));
+        }
         return (jsonResponse);
     }
 
     private String getRequestURL(String keyword) {//
-        theChoice = MainActivity.catChoice;
         Log.d("get choice", theChoice);
         Log.d("keyword",MainActivity.keyword);
 

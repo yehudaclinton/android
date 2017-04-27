@@ -24,7 +24,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         deviceName = android.os.Build.MANUFACTURER+" "+android.os.Build.MODEL;
         devicetxt.setText("your device name is "+deviceName);//
         //I should also implement only ones that ship to your location location
-        //android.os.Build.MANUFACTURER+"+"+android.os.Build.MODEL
 
         ImageButton one = (ImageButton) findViewById(R.id.regular);
         one.setOnClickListener(this); // calling onClick() method
@@ -55,7 +54,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         "categoryId=20349&" +
                         "paginationInput.entriesPerPage=6&" +
                         "aspectFilter.aspectName=Compatible+Model&" +
-                        "aspectFilter.aspectValueName=For+"+android.os.Build.MANUFACTURER+"+"+android.os.Build.MODEL;
+                        "aspectFilter.aspectValueName=For+"+android.os.Build.MANUFACTURER+"+A8";//+android.os.Build.MODEL
                 clicked();///amp; not required// there are no A5 only A8//insted it keywords it
                 break;
 
@@ -87,7 +86,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         "aspectFilter(0).aspectValueName=For+"+android.os.Build.MANUFACTURER+"+"+android.os.Build.MODEL+"&" +//OnePlus+3
                         "aspectFilter(1).aspectName=Type&" +
                         "aspectFilter(1).aspectValueName=Clip&";
-                clicked();//http://svcs.ebay.com/services/search/FindingService/v1?
+                clicked();
                 break;
 
             case R.id.water:

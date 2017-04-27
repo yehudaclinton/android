@@ -48,7 +48,7 @@ public class CaseList extends Activity {
 
         try {
             searchResponse = ebayApi.search(MainActivity.keyword);//
-
+            Log.d("searchResponse", searchResponse);
             //parse the json all by myself
             JSONObject jsonObject = new JSONObject(searchResponse);
             JSONArray itemsResults = (JSONArray) jsonObject.get("findItemsAdvancedResponse");//but what if i not 'advance'
