@@ -29,8 +29,7 @@ public class List extends BaseAdapter {
         secondtxt = itemPrice;
         thirdtxt = shippingCost;
         listLength = legnth;
-        inflater = (LayoutInflater) context.
-                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public int getCount() {
@@ -56,7 +55,7 @@ public class List extends BaseAdapter {
         Holder holder = new Holder();
         View rowView = inflater.inflate(R.layout.activity_list, null);
         Log.d("theImage", theImage[position]);
-        if(theImage[position] != "http://thumbs1.ebaystatic.com/pict/04040_0.jpg") {
+        if(theImage[position] != "http://thumbs1.ebaystatic.com/pict/04040_0.jpg") {//if not the blank stock image
             holder.img = (ImageView) rowView.findViewById(R.id.imageView1);
             holder.tv1 = (TextView) rowView.findViewById(R.id.textView1);
             holder.tv2 = (TextView) rowView.findViewById(R.id.textView2);

@@ -51,7 +51,7 @@ public class CaseList extends Activity {
             Log.d("searchResponse", searchResponse);
             //parse the json all by myself
             JSONObject jsonObject = new JSONObject(searchResponse);
-            JSONArray itemsResults = (JSONArray) jsonObject.get("findItemsAdvancedResponse");//but what if i not 'advance'
+            JSONArray itemsResults = (JSONArray) jsonObject.get("findItemsAdvancedResponse");//but what if im not 'advance'
             JSONObject aResult = (JSONObject) itemsResults.get(0);
             JSONArray theSearchResult = (JSONArray) aResult.get("searchResult");
             JSONObject aaResult = (JSONObject) theSearchResult.get(0);
@@ -116,19 +116,7 @@ public class CaseList extends Activity {
         }
     }
 
-    public void goToSite() {//to open item in browser
-//        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//        startActivity(intent);
-
-//        Log.d("url attempot", urlString);
-//        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
-//        startActivity(browserIntent);
-
-//        try {
-//            urlString = URLEncoder.encode(urlString, "utf-8");
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
+    public void goToSite() {
         urlString = this.jsonFixer(urlString);
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlString)));//"http://svcs.ebay.com/services/search/FindingService/v1?"+
 

@@ -31,7 +31,7 @@ public class EbayApi {// extends AppCompatActivity
         jsonResponse = invokeEbayRest(keyword);
         Log.d("json response", jsonResponse);
 
-if(jsonResponse.contains("\"totalEntries\":[\"0\"]")){//if contains this means that nothing is found
+if(jsonResponse.contains("\"totalEntries\":[\"0\"]")){//if contains this, means that nothing is found
     Log.d("json response", "Contains!!!");
     theChoice = "http://svcs.ebay.com/services/search/FindingService/v1?" +
             "OPERATION-NAME=findItemsAdvanced&" +
